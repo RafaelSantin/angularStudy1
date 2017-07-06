@@ -1,9 +1,26 @@
 'use strict';
-var app = angular.module('thutor',[]);
+var app = angular.module('thutor',['ngRoute']);
 
-app.config(['$qProvider', function ($qProvider) {
-    $qProvider.errorOnUnhandledRejections(false);
-}]);
+app.config(function($routeProvider, $locationProvider){
+   
+	$locationProvider.html5Mode({
+	  enabled: true,
+	  requireBase: false
+	});
+
+	 $locationProvider.hashPrefix('');
+
+    $routeProvider
+    .when('/', {
+        templateUrl : '/usuarios',
+        controller     : 'pessoaController',
+    })
+    .when('/telamensagens/:userId', {
+        templateUrl : '/telamensagens',
+        controller  : 'mensagemController'
+    })
+   .otherwise ({ redirectTo: '/' });
+});
 
 // Service
 app.factory('userService',function($http) {
@@ -22,8 +39,8 @@ app.factory('userService',function($http) {
 		exclui: function(id){
 			return $http.delete('/api/pessoa/'+id)
 		},
-		abreTelaMensagens: function(){
-			window.location.assign('/telamensagens');
+		getEndereco: function(cep){		
+			return $http.get('https://viacep.com.br/ws/'+cep+'/json')
 		}
 	}
 });
@@ -31,8 +48,11 @@ app.factory('userService',function($http) {
 // Service
 app.factory('messageService',function($http) {
 	return {
-		lista: function(){
-			return $http.get('/api/mensagens');
+		lista: function(id){			
+			return $http.get('/api/mensagens/'+id);
+		}
+		,listaTodos: function(){			
+			return $http.get('/api/mensagens/');
 		},
 		cadastra: function(data){
 			return $http.post('/api/mensagens', data);
@@ -73,21 +93,46 @@ app.controller('pessoaController', function($scope, userService) {
 				$scope.listar();
 			});
 		}
+	}		
+
+	$scope.carregaEndereco = function(data){	
+		data.logradouro = '';
+		data.bairro = '';
+		data.uf	 = '';
+
+
+		userService.getEndereco(data.cep).then(function(res){
+			data.logradouro = res.data.logradouro;
+			data.bairro = res.data.bairro;
+			data.uf = res.data.uf;
+			data.cidade = res.data.localidade;
+
+			console.log('res');
+			console.log(res);
+		});		
 	}	
 
-	$scope.abreTelaMensagens = function(){
-		console.log('lalala');
-		userService.abreTelaMensagens();
-	}
 });
 
 // Controller
-app.controller('mensagemController', function($scope, messageService) {
+app.controller('mensagemController', function($scope,$routeParams, messageService) {
+
+
+	$scope.mensagem = {'mensagem_text':'','pessoas_id':$routeParams.userId};
+
 	$scope.listar = function(){
-		messageService.lista().then(function(data){
+		messageService.lista($routeParams.userId).then(function(data){
+			$scope.mensagens = data.data;
+		});
+	}	
+
+	$scope.listarTodos = function(){
+		console.log('abriu');
+		messageService.listaTodos().then(function(data){
 			$scope.mensagens = data.data;
 		});
 	}
+
 	$scope.salvar = function(){		
 		messageService.cadastra($scope.mensagem).then(function(res){
 			$scope.listar();

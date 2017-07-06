@@ -10,12 +10,18 @@ use Log;
 class MessagesController extends Controller
 {
     // Listando pessoas
-    public function lista()
+    public function lista($id = null)
     {
 
-    	return DB::table('mensagens')
-    			->join('pessoas','pessoas.id','=','mensagens.pessoas_id')
-    			->get();
+        $query =  DB::table('mensagens')
+                ->join('pessoas','pessoas.id','=','mensagens.pessoas_id')
+                ->orderBy('data_envio','desc');
+        if(!empty($id))
+        {
+            $query->where('pessoas_id',$id);
+        }
+
+        return $query->get();
     }
  
     // Cadastrando Pessoa

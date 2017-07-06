@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html ng-app="thutor">
-<head>
-	<title>Mensagens</title>
-	<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
-
-	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
-	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-
-	<!-- Angular -->
-	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
-
-	<!-- App -->
-</head>
 <body ng-controller="mensagemController">
 	<div class="container" ng-init="listar()">
 		<div class="row">
@@ -21,14 +7,15 @@
 		</div>
 		<hr>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nova Mensagem</button>
-			</div><div class="col-md-6">
-				<button type="button" class="btn btn-primary" ng-click="voltarTelaPessoas()">Voltar</button>
 			</div>
-			<div class="col-md-6">
-				<input class="form-control" ng-model="pesquisar">
-			</div>
+			<div class="col-md-4">				
+				<button type="button" class="btn btn-success" ng-click="listarTodos()">Exibir todas mensagens</button>
+			</div>			
+			<div class="col-md-4">
+				<a type="button" class="btn btn-info" ng-href="/">Voltar</a>
+			</div>	
 		</div>
 		<hr>
 		<div class="row">
@@ -47,7 +34,7 @@
 						<tr ng-repeat="mensagem in mensagens | filter: pesquisar">
 							<td>@{{mensagem.id}}</td>
 							<td>@{{mensagem.nome}}</td>
-							<td>@{{mensagem.mensage_text}}</td>
+							<td>@{{mensagem.mensagem_text}}</td>
 							<td>@{{mensagem.data_envio}}</td>
 							<td>
 								<button class="btn btn-info btn-xs" ng-click="editar(pessoa)">Editar</button>
@@ -71,24 +58,8 @@
 				</div>
 				<div class="modal-body ">
 					<div class="form-group">
-						<label>Nome:</label>
-						<input type="text" class="form-control" ng-model="pessoa.nome">
-					</div>
-					<div class="form-group">
-						<label>E-mail:</label>
-						<input type="email" class="form-control" ng-model="pessoa.email">
-					</div>
-					<div class="form-group">
-						<label>Data Nascimento:</label>
-						<input type="text" class="form-control" ng-model="pessoa.dat_nasc">
-					</div>
-					<div class="form-group">
-						<label>Telefone Residencial:</label>
-						<input type="text" class="form-control" ng-model="pessoa.telefone">
-					</div>
-					<div class="form-group">
-						<label>Biografia:</label>
-						<textarea class="form-control" ng-model="pessoa.biografia"> </textarea>
+						<label>Mensagem:</label>
+						<textarea class="form-control" ng-model="mensagem.mensagem_text"> </textarea>
 					</div>
 
 				</div>
@@ -99,7 +70,4 @@
 			</div>
 		</div>
 	</div>
-
-	<script type="text/javascript" src="js/user.js"></script>
 </body>
-</html>

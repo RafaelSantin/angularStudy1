@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/usuarios', function () {
+    return view('usuarios');
+});
+
 Route::get('/telamensagens', function () {
     return view('mensagens');
 });
@@ -25,6 +29,6 @@ Route::group(['prefix' => 'api'], function()
 	Route::post('pessoas', 'PessoaController@novo');
 	Route::put('pessoa/{id}', 'PessoaController@editar');
 	Route::delete('pessoa/{id}', 'PessoaController@excluir');
-	Route::get('mensagens', 'MessagesController@lista');
+	Route::get('mensagens/{id?}', 'MessagesController@lista');
 	Route::post('mensagens', 'MessagesController@novo');
 });
