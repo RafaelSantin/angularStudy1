@@ -59,19 +59,19 @@
 						</div>
 						<div class="form-group col-md-12">
 							<label>E-mail:</label>
-							<input type="email" class="form-control" ng-model="pessoa.email">
+							<input type="email" placeholder="teste@teste.teste" class="form-control" ng-model="pessoa.email">
 						</div>
 						<div class="form-group col-md-4">
 							<label>Data Nascimento:</label>
-							<input type="text" class="form-control" ng-model="pessoa.dat_nasc">
+							<input type="text"  placeholder="YYYY-MM-DD" class="form-control" ng-model="pessoa.dat_nasc">
 						</div>
 						<div class="form-group col-md-4">
 							<label>Telefone Residencial:</label>
 							<input type="text" class="form-control" ng-model="pessoa.telefone">
 						</div>
 						<div class="form-group col-md-4">
-							<label>Cep:</label>
-							<input type="text" class="form-control" ng-model="pessoa.cep" ng-blur="carregaEndereco(pessoa)">
+							<label>Cep:(sem pontuação)</label>
+							<input type="text" placeholder="99999999" class="form-control" ng-model="pessoa.cep" ng-blur="carregaEndereco(pessoa)">
 						</div>
 						<div class="form-group col-md-10">
 							<label>Logradouro:</label>
