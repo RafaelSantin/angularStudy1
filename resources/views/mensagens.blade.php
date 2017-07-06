@@ -27,7 +27,6 @@
 							<th>Usuario</th>
 							<th>Mensagem</th>
 							<th>Data de Envio</th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -36,11 +35,7 @@
 							<td>@{{mensagem.nome}}</td>
 							<td>@{{mensagem.mensagem_text}}</td>
 							<td>@{{mensagem.data_envio}}</td>
-							<td>
-								<button class="btn btn-info btn-xs" ng-click="editar(pessoa)">Editar</button>
-								<button class="btn btn-danger btn-xs" ng-click="excluir(pessoa)">Excluir</button>
-
-							</td>
+							
 						</tr>
 					</tbody>
 				</table>
