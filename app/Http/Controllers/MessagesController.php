@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB; 
 use Log; 
+use App\mensagens; 
 
 class MessagesController extends Controller
 {
@@ -13,8 +14,7 @@ class MessagesController extends Controller
     public function lista($id = null)
     {
 
-        $query =  DB::table('mensagens')
-                ->join('pessoas','pessoas.id','=','mensagens.pessoas_id')
+        $query =  mensagens::join('pessoas','pessoas.id','=','mensagens.pessoas_id')
                 ->orderBy('data_envio','desc');
         if(!empty($id))
         {
@@ -30,7 +30,6 @@ class MessagesController extends Controller
     	$data = sizeof($_POST) > 0 ? $_POST : json_decode($request->getContent(), true); // Pega o post ou o raw
   		Log::debug('data');
  		Log::debug($data);
-    	return DB::table('mensagens')
-    		->insertGetId($data);
+    	return mensagens::insertGetId($data);
     }
 }

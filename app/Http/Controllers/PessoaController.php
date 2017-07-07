@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB; 
 use Log; 
+use App\pessoas; 
 
 class PessoaController extends Controller
 {
@@ -13,7 +14,7 @@ class PessoaController extends Controller
     public function lista()
     {
 
-    	return DB::table('pessoas')->get();
+    	return pessoas::get();
     }
  
     // Cadastrando Pessoa
@@ -22,8 +23,7 @@ class PessoaController extends Controller
     	$data = sizeof($_POST) > 0 ? $_POST : json_decode($request->getContent(), true); // Pega o post ou o raw
   		Log::debug('data');
  		Log::debug($data);
-    	return DB::table('pessoas')
-    		->insertGetId($data);
+    	return pessoas::insertGetId($data);
     }
  
     // Editando pessoas
@@ -31,8 +31,7 @@ class PessoaController extends Controller
 		$data = sizeof($_POST) > 0 ? $_POST : json_decode($request->getContent(), true); // Pega o post ou o raw
  		Log::debug('data');
  		Log::debug($data);
-		$res = DB::table('pessoas')
-			->where('id',$id)
+		$res = pessoas::where('id',$id)
 			->update($data);
  
 		return ["status" => ($res)?'ok':'erro'];
@@ -41,8 +40,7 @@ class PessoaController extends Controller
 	// Excluindo pessoa
 	public function excluir($id)
 	{
-		$res = DB::table('pessoas')
-			-> where('id',$id)
+		$res = pessoas::where('id',$id)
 			-> delete();
 			
 		return ["status" => ($res)?'ok':'erro'];
